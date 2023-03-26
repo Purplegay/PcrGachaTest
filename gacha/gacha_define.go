@@ -8,7 +8,7 @@ const (
 )
 
 const (
-	TEST_CNT = 1000000
+	TEST_CNT = 100000
 )
 
 const (

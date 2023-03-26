@@ -247,3 +247,7 @@ func (this *replicaPool) JingCallBack(totalGachaResult *GachaResult, stop bool) 
 	this.firstUp = true
 
 }
+
+func (this *replicaPool) NeedStop() bool {
+	return this.allGet
+}
