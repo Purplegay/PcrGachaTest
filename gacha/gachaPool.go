@@ -70,33 +70,42 @@ func (this *basePool) GetResult() *GachaResult {
 		for loop := 0; loop < 2; loop++ {
 			//十连
 			i := 0
+			stopLoop := false
 			for i = 0; i < int(this.exchangeCnt); i += 10 {
 				//前九次
 				for j := 0; j < 9; j++ {
 					itemName := this.gacha[0].choicer.Pick()
 					// fmt.Println(itemName)
-					this.iGachaPool.CheckStatics(itemName, totalGachaResult, stop)
+					this.iGachaPool.CheckStatics(itemName, totalGachaResult)
 					this.iGachaPool.BonusCallBack(totalGachaResult)
 				}
 				//第十次池子
 				itemName := this.gacha[1].choicer.Pick()
 				// fmt.Println(itemName)
-				this.iGachaPool.CheckStatics(itemName, totalGachaResult, stop)
+				this.iGachaPool.CheckStatics(itemName, totalGachaResult)
 				this.iGachaPool.BonusCallBack(totalGachaResult)
 				//抽到了
 				if this.iGachaPool.NeedStop() {
 					totalGachaResult._cnt += float64(i + 10)
+					totalGachaResult._allGet++
+					stopLoop = true
 					break
 				}
 			}
+
 			//丼了
-			if (stop && i == int(this.exchangeCnt-10)) || !stop || this.needJing {
+			if (stop && i == int(this.exchangeCnt-10)) || !stopLoop {
 				this.iGachaPool.JingCallBack(totalGachaResult, stop)
 				totalGachaResult._jing++
 			}
-			if this.allGet {
+
+			if this.allGet && !stopLoop {
 				totalGachaResult._cnt += float64(int32(loop+1) * this.exchangeCnt)
 				totalGachaResult._allGet++
+				break
+			}
+
+			if stopLoop {
 				break
 			}
 		}
@@ -111,11 +120,13 @@ func (this *basePool) GetResult() *GachaResult {
 	return totalGachaResult
 }
 
-func (this *basePool) CheckStatics(itemName string, totalGachaResult *GachaResult, stop bool) bool {
+func (this *basePool) CheckStatics(itemName string, totalGachaResult *GachaResult) bool {
 	switch itemName {
 	case "Up":
-		this.allGet = true
-		if stop {
+		defer func() {
+			this.allGet = true
+		}()
+		if this.allGet {
 			totalGachaResult._charPieces += float64(this.pieces)
 			totalGachaResult._pigPieces += PIECES_3STARS
 			return false
@@ -195,7 +206,7 @@ func (this *replicaPool) checkBonusStatics(itemName string, totalGachaResult *Ga
 	return false
 }
 
-func (this *replicaPool) CheckStatics(itemName string, totalGachaResult *GachaResult, stop bool) bool {
+func (this *replicaPool) CheckStatics(itemName string, totalGachaResult *GachaResult) bool {
 	switch itemName {
 	case "Up":
 		if this.firstUp {
@@ -223,7 +234,7 @@ func (this *replicaPool) CheckStatics(itemName string, totalGachaResult *GachaRe
 			}
 		}
 	case "3Stars", "2Stars", "1Stars":
-		this.basePool.CheckStatics(itemName, totalGachaResult, stop)
+		this.basePool.CheckStatics(itemName, totalGachaResult)
 	}
 	return false
 }
@@ -249,5 +260,8 @@ func (this *replicaPool) JingCallBack(totalGachaResult *GachaResult, stop bool) 
 }
 
 func (this *replicaPool) NeedStop() bool {
+	if this.needJing || !this.allGet {
+		return false
+	}
 	return this.allGet
 }

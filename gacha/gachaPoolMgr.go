@@ -36,7 +36,7 @@ type IGachaPool interface {
 	AddGacha([]*GachaEntiy)
 	BonusCallBack(totalGachaResult *GachaResult)
 	JingCallBack(totalGachaResult *GachaResult, stop bool)
-	CheckStatics(itemName string, totalGachaResult *GachaResult, stop bool) bool
+	CheckStatics(itemName string, totalGachaResult *GachaResult) bool
 }
 
 func newNormalPool(req *PoolInitStruct) IGachaPool {

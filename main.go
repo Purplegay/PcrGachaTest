@@ -10,7 +10,7 @@ func main() {
 	pool := gacha.GetInstance().NewGachaPool(&gacha.PoolInitStruct{
 		ExchangeCnt: 200,
 		Pieces:      100,
-		NeedJing:    false,
+		NeedJing:    true,
 		IsAllGet:    true,
 	}, gacha.GACHA_MODE_REPLICA)
 	result := pool.GetResult()
