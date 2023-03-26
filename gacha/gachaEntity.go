@@ -48,9 +48,11 @@ type GachaResult struct {
 	_pigPieces  float64
 	_cnt        float64
 	_jing       float64
+	_heartBreak float64 //心碎
+	_allGet     float64
 }
 
 func (this *GachaResult) String() string {
-	str := fmt.Sprintf("name:%s, charPieces:%f, pigPieces:%f, cnt:%f, jing:%f", this._name, this._charPieces, this._pigPieces, this._cnt, this._jing)
+	str := fmt.Sprintf("name:%s, charPieces:%f, pigPieces:%f, cnt:%f, jing:%f, heartBreak:%f, allGet:%f", this._name, this._charPieces, this._pigPieces, this._cnt, this._jing, this._heartBreak, this._allGet)
 	return str
 }
