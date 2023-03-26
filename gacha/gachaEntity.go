@@ -29,10 +29,10 @@ type GachaEntiy struct {
 func (this *GachaEntiy) init(items []*GachaPro) {
 	choices := []wrc.Choice[string, int32]{}
 	for _, item := range items {
-		choice := wrc.NewChoice[string, int32](item._name, item._pro)
+		choice := wrc.NewChoice(item._name, item._pro)
 		choices = append(choices, choice)
 	}
-	wrc, _ := wrc.NewChooser[string, int32](choices...)
+	wrc, _ := wrc.NewChooser(choices...)
 	this.choicer = wrc
 }
 
