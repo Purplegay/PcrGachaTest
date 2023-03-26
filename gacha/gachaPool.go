@@ -219,6 +219,7 @@ func (this *replicaPool) CheckStatics(itemName string, totalGachaResult *GachaRe
 				return true
 			}
 			if !this.isAllGet {
+				this.allGet = true
 				return true
 			}
 		}
@@ -241,6 +242,9 @@ func (this *replicaPool) CheckStatics(itemName string, totalGachaResult *GachaRe
 
 func (this *replicaPool) JingCallBack(totalGachaResult *GachaResult, stop bool) {
 	defer func() {
+		if !this.isAllGet && (this.firstUp || this.secondUp) {
+			this.allGet = true
+		}
 		if this.allGet {
 			this.firstUp = false
 			this.secondUp = false
