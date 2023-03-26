@@ -14,6 +14,9 @@ func (this *basePool) Init(exchangeCnt, pieces int32, name string, needJing bool
 	this.pieces = pieces
 	this.testCnt = TEST_CNT
 	this.name = name
+	if needJing {
+		this.name += "@Jing"
+	}
 	this.needJing = needJing
 }
 
