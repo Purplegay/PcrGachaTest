@@ -1,0 +1,4 @@
+github.com/kontoulis/go-weighted-random-choice v0.0.0-20190921115748-7dfb66c9e4e2 h1:ffeFGTdIv3AWWoBlH/tRNipbb2iKTQq60X7Ps/kOG+k=
+github.com/kontoulis/go-weighted-random-choice v0.0.0-20190921115748-7dfb66c9e4e2/go.mod h1:VFvktFWlsOds1h36CGU6d5qagzTO3t0XB05Rnzy8iuo=
+github.com/mroth/weightedrand/v2 v2.0.1 h1:zrEVDIaau/E4QLOKu02kpg8T8myweFlMGikIgbIdrRA=
+github.com/mroth/weightedrand/v2 v2.0.1/go.mod h1:f2faGsfOGOwc1p94wzHKKZyTpcJUW7OJ/9U4yfiNAOU=

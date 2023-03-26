@@ -1,0 +1,17 @@
+package gacha
+
+const (
+	GACHA_MODE_NORMAL       = 1
+	GACHA_MODE_THREESTARSUP = 2
+	GACHA_MODE_UPANDTHREES  = 3
+)
+
+const (
+	TEST_CNT = 1000000
+)
+
+const (
+	PIECES_3STARS = 50
+	PIECES_2STARS = 10
+	PIECES_1STARS = 1
+)
