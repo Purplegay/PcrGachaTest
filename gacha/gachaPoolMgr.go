@@ -31,7 +31,7 @@ func (this *GachaPoolMgr) NewGachaPool(req *PoolInitStruct, MODE int32) IGachaPo
 
 type IGachaPool interface {
 	GetResult() *GachaResult
-	NeedStop() bool
+	NeedStop(loop int32) bool
 	Init(req *PoolInitStruct)
 	AddGacha([]*GachaEntiy)
 	BonusCallBack(totalGachaResult *GachaResult)

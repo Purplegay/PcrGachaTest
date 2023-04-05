@@ -40,7 +40,7 @@ func (this *basePool) AddGacha(entities []*GachaEntiy) {
 	this.gacha = append(this.gacha, entities...)
 }
 
-func (this *basePool) NeedStop() bool {
+func (this *basePool) NeedStop(loop int32) bool {
 	if this.needJing {
 		return false
 	}
@@ -64,7 +64,6 @@ func (this *basePool) GetResult() *GachaResult {
 	totalGachaResult._name = this.name
 
 	for m := 0; m < this.testCnt; m++ {
-		stop := false
 		this.allGet = false
 		//复刻抽两个最多2井
 		for loop := 0; loop < 2; loop++ {
@@ -85,7 +84,7 @@ func (this *basePool) GetResult() *GachaResult {
 				this.iGachaPool.CheckStatics(itemName, totalGachaResult)
 				this.iGachaPool.BonusCallBack(totalGachaResult)
 				//抽到了
-				if this.iGachaPool.NeedStop() {
+				if this.iGachaPool.NeedStop(int32(loop)) {
 					totalGachaResult._cnt += float64(i + 10)
 					totalGachaResult._allGet++
 					stopLoop = true
@@ -94,8 +93,8 @@ func (this *basePool) GetResult() *GachaResult {
 			}
 
 			//丼了
-			if (stop && i == int(this.exchangeCnt-10)) || !stopLoop {
-				this.iGachaPool.JingCallBack(totalGachaResult, stop)
+			if (stopLoop && i == int(this.exchangeCnt-10)) || !stopLoop {
+				this.iGachaPool.JingCallBack(totalGachaResult, stopLoop)
 				totalGachaResult._jing++
 			}
 
@@ -263,9 +262,13 @@ func (this *replicaPool) JingCallBack(totalGachaResult *GachaResult, stop bool) 
 
 }
 
-func (this *replicaPool) NeedStop() bool {
-	if this.needJing || !this.allGet {
-		return false
+func (this *replicaPool) NeedStop(loop int32) bool {
+	//只有第一轮需要检验是否强井
+	if loop < 1 {
+		if this.needJing {
+			return false
+		}
 	}
+
 	return this.allGet
 }
